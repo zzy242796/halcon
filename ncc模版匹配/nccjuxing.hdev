@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="24.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<l>dev_close_window()</l>
+<l>read_image(nccImage,'dog.jpg')</l>
+<c>*打开一个适合图像大小的窗口</c>
+<l>dev_open_window_fit_image(nccImage,0,0,-1,-1,WindowHandle2)</l>
+<l>dev_display(nccImage)</l>
+<c>*灰度</c>
+<l>rgb1_to_gray (nccImage, nccGrayImage)</l>
+<c>*画笔设置 'margin'不填充</c>
+<l>dev_set_draw('margin')</l>
+<l>dev_set_line_width(3)</l>
+<l>dev_set_color('red')</l>
+<c></c>
+<c>*画矩形</c>
+<l>draw_rectangle1(WindowHandle2, nccRow1, nccColumn1, nccRow2, nccColumn2)</l>
+<l>gen_rectangle1(nccRectangle,nccRow1,nccColumn1,nccRow2,nccColumn2)</l>
+<l>dev_display(nccRectangle)</l>
+<c>*抠图</c>
+<l>reduce_domain(nccGrayImage, nccRectangle, nccImageReduced)</l>
+<c>*创建ncc模版    模板，金字塔等级的最大数量，起始角度，角度步长，模型ID</c>
+<l>create_ncc_model(nccImageReduced, 5, -0.39, 0.79, 'auto', 'use_polarity', nccModelID)</l>
+<c></c>
+<l>read_image(nccImage,'dog.jpg')</l>
+<l>rgb1_to_gray (nccImage, nccGrayImage1)</l>
+<l>dev_display(nccGrayImage1)</l>
+<c>*应用模板进行匹配 灰度图像，模型ID，起始角度，角度范围，匹配度，目标个数，最大重叠，子像素精度，金字塔等级数，</c>
+<l>find_ncc_model(nccGrayImage1, nccModelID, -0.39, 0.79, 0.50, 0, 0.4, 'true', 5, nccRow, nccColumn, nccAngle, nccScore)</l>
+<l>gen_rectangle1(nccRectangle1, nccRow-(nccRow2-nccRow1)/2, nccColumn-(nccColumn2-nccColumn1)/2, nccRow+(nccRow2-nccRow1)/2, nccColumn+(nccColumn2-nccColumn1)/2)</l>
+<l>count_obj (nccRectangle1, nccNumber)</l>
+<c></c>
+<l>for i := 1 to nccNumber by 1</l>
+<l>    scorenccmsg := nccScore[i-1]</l>
+<l>    rownccmsg := nccRow[i-1]</l>
+<l>    columnnccmsg := nccColumn[i-1]</l>
+<l>*     stop ()</l>
+<l>endfor</l>
+<l>dev_display(nccImage)</l>
+<l>dev_display(nccRectangle1)</l>
+<l>query_font (WindowHandle2, Font)</l>
+<l>FontWithSize := Font[0]+'-10'</l>
+<l>set_font (WindowHandle2, FontWithSize)</l>
+<l>*set_display_font (WindowHandle2, 10, 'mono', 'true', 'false')</l>
+<l>*disp_message(WindowHandle2, ['Score: ' + nccScore], 'image', nccRow, nccColumn, 'black', 'true')</l>
+<l>dev_disp_text(nccRow, 'image', nccRow+20, nccColumn, 'black', [], [])</l>
+<l>dev_disp_text(nccColumn, 'image', nccRow+40, nccColumn, 'black', [], [])</l>
+<l>ccc := nccScore</l>
+<c>*释放ncc模版资源</c>
+<l>clear_ncc_model (nccModelID)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
