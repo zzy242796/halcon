@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="24.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image(Image, 'ppy.jpg')</l>
+<c>*sobel滤波</c>
+<l>sobel_amp(Image, EdgeAmplitude, 'sum_abs', 3)</l>
+<c>*阈值分割</c>
+<l>threshold(EdgeAmplitude, Region, 20, 255)</l>
+<c>*区域骨化</c>
+<l>skeleton(Region, Skeleton)</l>
+<c></c>
+<l>dev_display(Image)</l>
+<l>dev_set_color('white')</l>
+<l>dev_display(Skeleton)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

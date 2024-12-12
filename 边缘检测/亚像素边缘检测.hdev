@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="24.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image(Image,'ppy.jpg')</l>
+<c></c>
+<l>dev_open_window_fit_image(Image, 0, 0, -1, -1, WindowHandle)</l>
+<c>*利用sobel算法提取亚像素级别的边缘</c>
+<l>edges_sub_pix(Image, Edges, 'sobel', 1, 20, 40)</l>
+<c>*设置显示的区域，显示一部分区域</c>
+<l>*dev_set_part(0, 0, 511, 511)</l>
+<l>dev_display(Image)</l>
+<l>dev_set_colored(6)</l>
+<l>dev_display(Edges)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

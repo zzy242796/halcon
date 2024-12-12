@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="24.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image(Image,'hak.jpg')</l>
+<c>*使用Canny算法进行边缘</c>
+<l>edges_image(Image, ImaAmp, ImaDir, 'canny', 0.5, 'nms', 12, 22)</l>
+<c></c>
+<c>*阈值分割</c>
+<l>threshold(ImaAmp, Region, 20, 255)</l>
+<c>*区域骨化</c>
+<l>skeleton(Region, Skeleton)</l>
+<c></c>
+<c>*将骨骼转变为xld轮廓</c>
+<l>gen_contours_skeleton_xld(Skeleton, Contours, 1, 'filter')</l>
+<l>dev_display(Image)</l>
+<l>dev_set_colored(6)</l>
+<l>dev_display(Contours)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

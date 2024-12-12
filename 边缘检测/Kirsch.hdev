@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="24.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image(Image,'ppy.jpg')</l>
+<c>*Kirsch算子边缘检测</c>
+<l>kirsch_amp(Image, ImageEdgeAmp)</l>
+<c>*阈值分割</c>
+<l>threshold(ImageEdgeAmp, Region, 130, 255)</l>
+<c>*区域骨化</c>
+<l>skeleton(Region, Skeleton)</l>
+<l>dev_display(Image)</l>
+<l>dev_set_color('white')</l>
+<l>dev_display(Skeleton)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

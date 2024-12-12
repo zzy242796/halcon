@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="24.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<l>read_image(Image,'ppy.jpg')</l>
+<l>rgb1_to_gray(Image, GrayImage)</l>
+<c>*边缘检测</c>
+<c>*索贝尔</c>
+<l>sobel_amp (GrayImage, EdgeAmplitude, 'sum_abs', 3)</l>
+<c>*拉普拉斯</c>
+<l>laplace(GrayImage, ImageLaplace, 'signed', 5, 'n_8_isotropic')</l>
+<c>*阈值分割</c>
+<l>threshold(EdgeAmplitude, Region, 22, 255)</l>
+<c>*提取边缘框架</c>
+<l>skeleton(Region, Skeleton)</l>
+<l>dev_display(Image)</l>
+<l>dev_set_color('red')</l>
+<l>dev_display(Skeleton)</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
