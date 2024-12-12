@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="24.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* 读取图像</c>
+<l>read_image(Image, 'yuan.jpg')</l>
+<c>* 打开图像窗口</c>
+<l>dev_open_window_fit_image(Image, 0, 0, -1, -1, WindowHandle)</l>
+<c></c>
+<c>* 显示图像</c>
+<l>dev_display(Image)</l>
+<c></c>
+<c>* 提取边缘</c>
+<l>edges_sub_pix(Image, Edges, 'canny', 1, 20, 40)</l>
+<c></c>
+<c>* 分割轮廓，识别线和圆</c>
+<l>segment_contours_xld(Edges, ContoursSplit, 'lines_circles', 5, 5, 8)</l>
+<c></c>
+<c>* 统计识别出的圆或线的数量</c>
+<l>count_obj(ContoursSplit, Number)</l>
+<c></c>
+<c>* 遍历所有轮廓，拟合圆</c>
+<l>for i := 1 to Number by 1</l>
+<l>    select_obj(ContoursSplit, ObjectSelected, i)</l>
+<l>    get_contour_global_attrib_xld(ObjectSelected, 'cont_approx', ContourClass)</l>
+<l>    if (ContourClass == 1)</l>
+<l>        fit_circle_contour_xld(ObjectSelected, 'ahuber', -1, 2, 0, 3, 2, Row, Column, Radius, StartPhi, EndPhi, PointOrder)</l>
+<c>        * 显示拟合的圆</c>
+<l>        gen_circle_contour_xld(ContCircle, Row, Column, Radius, 0, rad(360), 'positive', 1.0)</l>
+<l>        dev_display(ContCircle)</l>
+<l>    endif</l>
+<l>endfor</l>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="24.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>* 读取图像</c>
+<l>read_image(Image, 'yuan.png')</l>
+<c></c>
+<l>dev_open_window_fit_image(Image, 0, 0, -1, -1, WindowHandle)</l>
+<c>* 转换为灰度图像（如果需要）</c>
+<l>rgb1_to_gray(Image, GrayImage)</l>
+<c>*阈值</c>
+<l>threshold (GrayImage, Regions, 113, 145)</l>
+<c></c>
+<c>*连通</c>
+<l>connection (Regions, ConnectedRegions)</l>
+<l>count_obj (ConnectedRegions, Number)</l>
+<l>dev_update_window ('off')</l>
+<l>dev_display(Image)</l>
+<l>for i := 1 to Number by 1</l>
+<c>    *计算区域圆度</c>
+<l>    circularity(ConnectedRegions, Circularity)</l>
+<l>    if(Circularity[i-1] &gt; 0.9)</l>
+<c>        *选取目标区域</c>
+<l>        select_obj (ConnectedRegions, RegionSelected, i)</l>
+<c>        *边界提取</c>
+<l>        boundary (RegionSelected, RegionBorder, 'inner')</l>
+<c>        *膨胀</c>
+<l>        dilation_circle (RegionBorder, RegionDilation, 2)</l>
+<l>        dev_display(RegionDilation)</l>
+<l>    endif</l>
+<l>endfor</l>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+</hdevelop>
